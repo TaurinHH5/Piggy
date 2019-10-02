@@ -18,7 +18,8 @@ class Piggy(PiggyParent):
         self.LEFT_DEFAULT = 80
         self.RIGHT_DEFAULT = 80
         self.MIDPOINT = 1500  # what servo command (1000-2000) is straight forward for your bot?
-        
+        self.load_defaults()
+
 
     def load_defaults(self):
         """Implements the magic numbers defined in constructor"""
@@ -53,7 +54,17 @@ class Piggy(PiggyParent):
     '''
 
     def dance(self):
-        print("I don't know how to dance. \nPlease give my programmer a zero.")
+       #  print("I don't know how to dance. \nPlease give my programmer a zero.")
+        #HIGHER-ORDER
+    for x in range (2)
+        #self.NAENAE()
+        #self.folks()
+        #self.moonwalk()
+        #self.twist()
+
+'''
+DANCE METHODS
+'''
 
     def scan(self):
         """Sweep the servo and populate the scan_data dictionary"""
@@ -64,14 +75,21 @@ class Piggy(PiggyParent):
     def obstacle_count(self):
         print("I can't count how many obstacles are around me. Please give my programmer a zero.")
 
+
+
+
     def nav(self):
         print("-----------! NAVIGATION ACTIVATED !------------\n")
         print("-------- [ Press CTRL + C to stop me ] --------\n")
         print("-----------! NAVIGATION ACTIVATED !------------\n")
         print("Wait a second. \nI can't navigate the maze at all. Please give my programmer a zero.")
 
-
-
+        '''
+        '''Dance Methods
+    def.folks(self)
+    def.NAENAE(self)
+    def.moonwalk(self)
+    def.twist(self)
 
 ###########
 ## MAIN APP
