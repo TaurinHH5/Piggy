@@ -57,14 +57,47 @@ class Piggy(PiggyParent):
        #  print("I don't know how to dance. \nPlease give my programmer a zero.")
         #HIGHER-ORDER
     for x in range (2)
-        #self.NAENAE()
-        #self.folks()
+        self.NAENAE()
+        #self.Birdie()
         #self.moonwalk()
         #self.twist()
-
+        #self.dab
 '''
 DANCE METHODS
 '''
+
+
+    def twist(self):
+        # A classic move, done by the experts who slay the most
+        while True: 
+        self.MOTOR_LEFT(50)
+        time.sleep(.8)
+        self.MOTOR_RIGHT(50)
+
+    def moonwalk(self): 
+        #A tribute to Micheal Jackson and his love for children 
+        self.back
+        time.sleep(1)
+        self.turn_by_deg(-30)
+        self.back
+        self.turn_by_deg(60)
+        self.back()
+
+    def dab(self):
+        # Coming from an origin that should not be named, this move the ultimate party dance move
+        self.servo(800)
+        self. turn_by_deg(370)
+        self.left
+        self.sleep(1)
+        self.stop
+    def Birdie(self):
+        #Schimizzi's favorite move when at the club, also has been seen preforming it on the ice
+        self.MOTOR_RIGHT(15)
+        time.sleep(1)
+        while true:
+        self.MOTOR_LEFT(15)
+        self.MOTOR_RIGHT(15)
+        self.servo(22)
 
     def scan(self):
         """Sweep the servo and populate the scan_data dictionary"""
