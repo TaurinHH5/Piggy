@@ -1,5 +1,6 @@
 from teacher import PiggyParent
 import sys
+import time
 
 class Piggy(PiggyParent):
 
@@ -75,7 +76,7 @@ class Piggy(PiggyParent):
                     self.servo(ang):
                     time.sleep(.1)
                     if self.read_distance() < 250:
-                        return False 
+                        return false 
                 self. turn_by_deg(90)
             return True
 
