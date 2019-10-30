@@ -57,12 +57,13 @@ class Piggy(PiggyParent):
     def dance(self):
        #  print("I don't know how to dance. \nPlease give my programmer a zero.")
         #HIGHER-ORDER
-        #Check to see if its safe
-        if not self.saftey_check
+        #Check to see if its safe 
+         if not self.saftey_check: 
             print("Not cool.I ain't dancing")
             return #return closes ther method
         else:
             print("its safe to dance")
+
         for x in range(3):
             self.Birdie()
             self.moonwalk()
@@ -129,7 +130,24 @@ DANCE METHODS
             self.scan_data[angle] = self.read_distance()
 
     def obstacle_count(self):
-        print("I can't count how many obstacles are around me. Please give my programmer a zero.")
+        """Does a 360 scan and returns the number of obsticles it sees""" 
+        found_something = False 
+        starting_position = self.get_heading()
+        self.right(primary=60, counter= -60)
+        while self.get_heading() != starting_position
+            if self.read_distance( )< 250 and not found_something
+                found_something = True
+                count+= 1 
+                print("\nTheres something in my face, i Cannot see\n"):
+            elif self.read_distance() > 250 and found_something:
+                found_something = False
+        self.stop()
+        print("I found this many things:%d" % count )
+        return count
+
+
+
+        print("Im tryan boolinin in this bih dont talk in that rap cap")
 
 
 
@@ -138,15 +156,11 @@ DANCE METHODS
         print("-----------! NAVIGATION ACTIVATED !------------\n")
         print("-------- [ Press CTRL + C to stop me ] --------\n")
         print("-----------! NAVIGATION ACTIVATED !------------\n")
-        print("Wait a second. \nI can't navigate the maze at all. Please give my programmer a zero.")
-
-        '''
-        '''Dance Methods
-    def.folks(self)
-    def.NAENAE(self)
-    def.moonwalk(self)
-    def.twist(self)
-
+       while self.read_distance() > 250:
+           self.fwd()
+           time.sleep(.02)
+        self.stop()
+    
 ###########
 ## MAIN APP
 if __name__ == "__main__":  # only run this loop if this is the main file
