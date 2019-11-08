@@ -77,7 +77,7 @@ class Piggy(PiggyParent):
                 self.servo(ang)
                 time.sleep(.1)
                 if self.read_distance() < 250:
-                    return false 
+                    return False 
             self.turn_by_deg(90)
         return True
 
@@ -114,10 +114,10 @@ class Piggy(PiggyParent):
         #Schimizzi's favorite move when at the club, also has been seen preforming it on the ice
         self.MOTOR_RIGHT(15)
         time.sleep(1)
-        while true:
-        self.MOTOR_LEFT(15)
-        self.MOTOR_RIGHT(15)
-        self.servo(22)
+        while True:
+            self.MOTOR_LEFT(15)
+            self.MOTOR_RIGHT(15)
+            self.servo(22)
 
     def scan(self):
         """Sweep the servo and populate the scan_data dictionary"""
@@ -160,8 +160,8 @@ class Piggy(PiggyParent):
                 else:
                     left_total+= dist
                     left_count+= 1 
-            left_avg = total_left / left_count
-            right_avg = total_right / right_count
+            left_avg = left_total / left_count
+            right_avg = right_total / right_count
             if left_avg > right_avg: 
                 self.turn_by_deg(-35)
             else: 
