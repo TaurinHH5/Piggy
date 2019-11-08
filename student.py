@@ -58,10 +58,10 @@ class Piggy(PiggyParent):
        #  print("I don't know how to dance. \nPlease give my programmer a zero.")
         #HIGHER-ORDER
         #Check to see if its safe 
-         if not self.saftey_check: 
+        if not self.saftey_check: 
             print("Not cool.I ain't dancing")
-            return #return closes ther method
-        else:
+            return #return closes ther method 
+        else: 
             print("its safe to dance")
 
         for x in range(3):
@@ -70,33 +70,29 @@ class Piggy(PiggyParent):
             self.twist()
             self.dab()
 
-        def safe_to_dance_(self):
-            '''does a 360 distnace check and returns true'''
-            for x in range (4):
-                for ang in range (1000,2001,100)
-                    self.servo(ang):
-                    time.sleep(.1)
-                    if self.read_distance() < 250:
-                        return false 
-                self. turn_by_deg(90)
-            return True
+    def safe_to_dance_(self):
+        '''does a 360 distnace check and returns true'''
+        for x in range (4):
+            for ang in range (1000,2001,100):
+                self.servo(ang)
+                time.sleep(.1)
+                if self.read_distance() < 250:
+                    return false 
+            self.turn_by_deg(90)
+        return True
 
-    for x in range (2)
-        #self.Birdie()
-        #self.moonwalk()
-        #self.twist()
-        #self.dab
-'''
-DANCE METHODS
-'''
+
+    '''
+    DANCE METHODS
+    '''
 
 
     def twist(self):
         # A classic move, done by the experts who slay the most
         while True: 
-        self.MOTOR_LEFT(50)
-        time.sleep(.8)
-        self.MOTOR_RIGHT(50)
+            self.MOTOR_LEFT(50)
+            time.sleep(.8)
+            self.MOTOR_RIGHT(50)
 
     def moonwalk(self): 
         #A tribute to Micheal Jackson and his love for children 
@@ -125,42 +121,54 @@ DANCE METHODS
 
     def scan(self):
         """Sweep the servo and populate the scan_data dictionary"""
-        for angle in range(self.MIDPOINT-350, self.MIDPOINT+350, 3):
+        for angle in range(self.MIDPOINT-350, self.MIDPOINT+350, 15):
             self.servo(angle)
             self.scan_data[angle] = self.read_distance()
 
     def obstacle_count(self):
         """Does a 360 scan and returns the number of obsticles it sees""" 
-        found_something = False 
-        starting_position = self.get_heading()
-        self.right(primary=60, counter= -60)
-        while self.get_heading() != starting_position
-            if self.read_distance( )< 250 and not found_something
-                found_something = True
-                count+= 1 
-                print("\nTheres something in my face, i Cannot see\n"):
-            elif self.read_distance() > 250 and found_something:
-                found_something = False
-        self.stop()
-        print("I found this many things:%d" % count )
-        return count
+        pass
 
 
 
         print("Im tryan boolinin in this bih dont talk in that rap cap")
 
 
-
-
     def nav(self):
         print("-----------! NAVIGATION ACTIVATED !------------\n")
         print("-------- [ Press CTRL + C to stop me ] --------\n")
         print("-----------! NAVIGATION ACTIVATED !------------\n")
-       while self.read_distance() > 250:
-           self.fwd()
-           time.sleep(.02)
-        self.stop()
-    
+        while True: 
+            while self.read_distance() > 250:
+                self.fwd()
+                time.sleep(.02)
+            self.stop()
+            self.scan()
+            #traversal
+            left_total=0
+            left_count=0
+            right_total=0 
+            right_count=0
+            # if right is bigger:
+            # turn right
+            # if left is bigger: 
+            # turn left
+            for ang, dist in self.scan_data.items():
+                if ang < self.MIDPOINT:
+                    right_total += dist
+                    right_count+= 1
+                else:
+                    left_total+= dist
+                    left_count+= 1 
+            left_avg = total_left / left_count
+            right_avg = total_right / right_count
+            if left_avg > right_avg: 
+                self.turn_by_deg(-35)
+            else: 
+                self.turn_by_deg(35)
+
+
+
 ###########
 ## MAIN APP
 if __name__ == "__main__":  # only run this loop if this is the main file
