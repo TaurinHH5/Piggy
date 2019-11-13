@@ -110,7 +110,7 @@ class Piggy(PiggyParent):
         self.left
         self.sleep(1)
         self.stop
-    def Birdie(self):
+    def Birdie(self):+
         #Schimizzi's favorite move when at the club, also has been seen preforming it on the ice
         self.MOTOR_RIGHT(15)
         time.sleep(1)
