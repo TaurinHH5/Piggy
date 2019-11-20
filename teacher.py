@@ -5,6 +5,7 @@
 # Copyright (c) 2017 Dexter Industries
 # Released under the MIT license (http://choosealicense.com/licenses/mit/).
 # For more information see https://github.com/DexterInd/GoPiGo3/blob/master/LICENSE.md
+# Distance sensor and IMU both plugged into I2C
 import gopigo3, sys, time
 from di_sensors.easy_distance_sensor import EasyDistanceSensor
 from di_sensors import inertial_measurement_unit
@@ -17,12 +18,16 @@ class PiggyParent(gopigo3.GoPiGo3):
 
     def __init__(self, addr=8, detect=True):
         gopigo3.GoPiGo3.__init__(self)
+        self.MIDPOINT = 1500
         self.scan_data = {}
-        self.distance_sensor = EasyDistanceSensor()
-        self.imu = inertial_measurement_unit.InertialMeasurementUnit(bus = "GPG3_AD1") 
+        # mutex sensors on IC2
+        self.distance_sensor = EasyDistanceSensor(port="RPI_1", use_mutex=True)
+        self.imu = inertial_measurement_unit.InertialMeasurementUnit(bus="RPI_1") # mutex crashes this
+        # buffer for reading the gyro
+        self.gyro_buffer = 0
         self.stop()
 
-    def calibrate(self): 
+    def calibrate(self):
         """allows user to experiment on finding centered midpoint and even motor speeds"""
         print("Calibrating...")
         self.servo(self.MIDPOINT)
@@ -54,9 +59,9 @@ class PiggyParent(gopigo3.GoPiGo3):
                 self.stop()
                 response = str.lower(input("Reduce left, reduce right or drive? (l/r/d): "))
                 if response == 'l':
-                    self.LEFT_SPEED -= 5
+                    self.LEFT_DEFAULT -= 5
                 elif response == 'r':
-                    self.RIGHT_SPEED -= 5
+                    self.RIGHT_DEFAULT -= 5
                 elif response == 'd':
                     self.fwd()
                     time.sleep(1)
@@ -95,7 +100,6 @@ class PiggyParent(gopigo3.GoPiGo3):
 
         # call turn to deg on the delta
         self.turn_to_deg(goal)
-        
 
     def turn_to_deg(self, deg):
         """Turns to a degree relative to the gyroscope's readings. If told 20, it
@@ -112,16 +116,14 @@ class PiggyParent(gopigo3.GoPiGo3):
 
         
         # while loop - keep turning until my gyro says I'm there
-        while abs(deg - self.get_heading()) > 3:
+        while abs(deg - self.get_heading()) > 4:
             turn(primary=70, counter=-70)
-            time.sleep(.05) # avoid spamming the gyro
+            #time.sleep(.05) # avoid spamming the gyro
 
         # once out of the loop, hit the brakes
         self.stop()
         # report out to the user
         print("\n{} is close enough to {}.\n".format(self.get_heading(), deg))
-
-
 
     def fwd(self, left=50, right=50):
         """Blindly charges your robot forward at default power which needs to be configured in child class"""
@@ -172,7 +174,54 @@ class PiggyParent(gopigo3.GoPiGo3):
         return d
 
     def get_heading(self):
-        """Returns the heading from the IMU sensor"""
-        reading = self.imu.read_euler()[0]
-        print("Gyroscope sensor is at: {} degrees ".format(reading))
-        return reading
+        """Returns the heading from the IMU sensor, or if there's a sensor exception, it returns
+        the last saved reading"""
+        try:
+            self.gyro_buffer = self.imu.read_euler()[0]
+            print("Gyroscope sensor is at: {} degrees ".format(self.gyro_buffer))
+        except Exception as e:
+            print("----- PREVENTED GYRO SENSOR CRASH -----")
+            print(e)
+        return self.gyro_buffer
+
+    '''
+    SHOWOFF SCRIPTS
+    '''
+
+    def shy(self):
+        """Responds to a close reading on the distance sensor by backing up"""
+        while True:
+            for ang in range(self.MIDPOINT-400, self.MIDPOINT+401, 100):
+                self.servo(ang)
+                time.sleep(.1)
+                if self.read_distance() < 250:
+                    self.back()
+                    time.sleep(.3)
+                    self.stop()
+                    for x in range(3):
+                        self.servo(self.MIDPOINT + 300)
+                        time.sleep(.15)
+                        self.servo(self.MIDPOINT - 300)
+                        time.sleep(.15)
+                    self.servo(self.MIDPOINT)
+                    self.fwd()
+                    time.sleep(.2)
+                    self.stop()
+
+    def follow(self):
+        """Responds to a close reading on the distance sensor by attempting to maintain heading"""
+        while True:
+            for ang in range(self.MIDPOINT-400, self.MIDPOINT+401, 100):
+                self.servo(ang)
+                time.sleep(.1)
+                if self.read_distance() < 250:
+                    self.look_excited()
+
+    def look_excited(self):
+        for x in range(2):
+            self.turn_by_deg(30)
+            time.sleep(.25)
+            self.turn_by_deg(-30)
+            time.sleep(.25)
+            self.stop()
+
