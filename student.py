@@ -175,4 +175,4 @@ if __name__ == "__main__":  # only run this loop if this is the main file
                 time.sleep(.1)
                 current_angle = self.get_heading()
                 if abs(started_at - current_angle) > 20:
-                    self.turn_to_deg(started_at
+                    self.turn_to_deg(started_at)
