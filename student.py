@@ -167,3 +167,12 @@ if __name__ == "__main__":  # only run this loop if this is the main file
             p.menu()
     except KeyboardInterrupt: # except the program gets interrupted by Ctrl+C on the keyboard.
         p.quit()
+
+
+        def hold_position(self):
+        started_at = self.get_heading()
+        while True:
+            time.sleep(.1)
+            current_angle = self.get_heading()
+            if abs(started_at - current_angle) > 20:
+                self.turn_to_deg(started_at
