@@ -115,6 +115,14 @@ class Piggy(PiggyParent):
         """ Does a 360 scan and returns the number of obstacles it see"""
         pass
 
+    def hold_position(self):
+        started_at = self.get_heading()
+        while True:
+            time.sleep(.1)
+            current_angle = self.get_heading()
+            if abs(started_at - current_angle) > 20:
+                self.turn_to_deg(started_at)
+
     def quick_check(self):
         # three quick checks
         for ang in range(self.MIDPOINT-150, self.MIDPOINT+151, 150):
@@ -170,10 +178,4 @@ if __name__ == "__main__":  # only run this loop if this is the main file
         p.quit()
 
 
-        def hold_position(self):
-            started_at = self.get_heading()
-            while True:
-                time.sleep(.1)
-                current_angle = self.get_heading()
-                if abs(started_at - current_angle) > 20:
-                    self.turn_to_deg(started_at)
+        
