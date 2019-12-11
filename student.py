@@ -170,9 +170,9 @@ if __name__ == "__main__":  # only run this loop if this is the main file
 
 
         def hold_position(self):
-        started_at = self.get_heading()
-        while True:
-            time.sleep(.1)
-            current_angle = self.get_heading()
-            if abs(started_at - current_angle) > 20:
-                self.turn_to_deg(started_at
+            started_at = self.get_heading()
+            while True:
+                time.sleep(.1)
+                current_angle = self.get_heading()
+                if abs(started_at - current_angle) > 20:
+                    self.turn_to_deg(started_at
