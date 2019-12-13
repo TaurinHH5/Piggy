@@ -131,25 +131,47 @@ class Piggy(PiggyParent):
                 return False
         #if i get to the end, this means i didn't find anything dangerous
         return True
+    def turn_to_exit(self):
+        start = self.get_heading()
+        self.turn_to_deg(self.EXIT_HEADING)
+        if not self.quick_check():
+            self.turn_to_deg(start)
+            return False
+        return True
 
     def nav(self):
         print("-----------! NAVIGATION ACTIVATED !------------\n")
         print("-------- [ Press CTRL + C to stop me ] --------\n")
         print("-----------! NAVIGATION ACTIVATED !------------\n")
-        while True:
+        corner_count = 3
+        self.EXIT_HEADING = self.get_heading()
+        
+        while True:    
             self.servo(self.MIDPOINT)
             while self.quick_check():
+                corner_count = 0
                 self.fwd()
                 time.sleep(.01)
             self.stop()
             self.scan()
-            # traversal
+            # turns out of cornoer if stuck
+            corner_count += 1
+            if corner_count == 3:
+                self.turn_by_deg(90)
+            
+            #check on exit
+            current = self.get_heading()
+            self.turn_to_exit()
+            if not self.quick_check():
+                self.turn_to_deg(current)
+            else: continue
+            #traversal
             left_total = 0
             left_count = 0
             right_total = 0
             right_count = 0
             for ang, dist in self.scan_data.items():
-                if ang < self.MIDPOINT:
+                if ang < self.MIDPOINT: 
                     right_total += dist
                     right_count += 1
                 else:
@@ -157,10 +179,14 @@ class Piggy(PiggyParent):
                     left_count += 1
             left_avg = left_total / left_count
             right_avg = right_total / right_count
-            if left_avg > right_avg:
+            if left_avg > right_avg:            
                 self.turn_by_deg(-45)
-            else:
+            else:                
                 self.turn_by_deg(45)
+
+
+
+
 
 ###########
 ## MAIN APP
